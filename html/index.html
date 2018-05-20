@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<style>
+    * {
+        text-align: center;
+    }
+
+    .title {
+        font-size: 64px;
+        margin-bottom: 0;
+    }
+    .sub {
+        margin: 0;
+        margin-top: 0;
+    }
+
+    .dir {
+        margin-top: 100px;
+    }
+
+    ._auth {
+        white-space: pre;
+    }
+</style>
+
+<html>
+    <head>
+        <link id="stylesheet" rel="stylesheet" type="text/css" href="./style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    </head>
+    <body bgcolor="#0D0D0D">
+        <p class="title" id="title"><b>INTERCEPT</b></h1>
+        <p class="sub">THE NET AT WAR</p>
+        <div class="dir">
+            <p class="_auth" id="_auth">   Authenticating.  </p>
+        </div>
+    </body>
+</html>
+
+<script>
+    const cfg = require("../cfg.json");
+
+    window.onload = ()=>{
+        const authcycl = [
+            "   Authenticating.  ",
+            "   Authenticating . ",
+            "   Authenticating  ."
+        ]
+        let authintv = setInterval(()=>{
+            const e = document.getElementById("_auth");
+            if (e) {
+                let i = authcycl.indexOf(e.innerText)+1;
+                if (!authcycl[i])
+                    i = 0;
+                e.innerText = authcycl[i];
+            } else clearInterval(authintv);
+        }, 1000);
+
+        function authValid() {
+            clearInterval(authintv);
+
+            document.getElementById("_auth").innerHTML = `<a href="./game/index.html">Connect</a>`;
+        }
+
+        function authInvalid() {
+            clearInterval(authintv);
+
+            document.getElementById("_auth").innerHTML = `<a href="./auth/index.html">Login</a>`;
+        }
+
+        // 62.210.130.147 //
+        const socket = io.connect(cfg.server, {secure:true});
+
+        let token = localStorage.getItem("token");
+        if (token) {
+            socket.emit("data", JSON.stringify({event:"auth", token:token}));
+            socket.once("data", data=>{
+                console.log(data);
+                if (data.success)
+                    authValid();
+                else
+                    authInvalid();
+            });
+        } else authInvalid();
+    }
+</script>

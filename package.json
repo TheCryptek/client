@@ -1,0 +1,6 @@
+{
+    "name": "Intercept",
+    "scripts": {
+        "start": "electron ."
+    }
+}

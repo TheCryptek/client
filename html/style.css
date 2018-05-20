@@ -1,0 +1,23 @@
+* {
+    font-family: "OCR-A";
+
+    margin: 5px;
+}
+
+p, a {
+    color: #00FF00;
+    font-size: 24px;
+}
+
+a {
+    color: #007FFF;
+    font-size: 24px;
+
+    text-decoration: none;
+}
+
+@font-face
+{
+    font-family: "ocr-a";
+    src: url("OCR-A.ttf");
+}

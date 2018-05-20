@@ -1,0 +1,74 @@
+.ht {
+    color: #FF6978;
+    text-shadow: 0 0 50px #A89EFF;
+}
+
+.white {
+    color: #FFFFFF;
+    text-shadow: 0 0 15px #FFFFFF;
+}
+
+.red {
+    color: #FF0000;
+    text-shadow: 0 0 15px #FF0000;
+}
+
+.lightred {
+    color: #FF8888;
+    text-shadow: 0 0 15px #FF8888;
+}
+
+.green {
+    color: #00FF00;
+    text-shadow: 0 0 15px #00FF00;
+}
+
+.lightgreen {
+    color: #88FF88;
+    text-shadow: 0 0 15px #88FF88;
+}
+
+.blue {
+    color: #0000FF;
+    text-shadow: 0 0 15px #0000FF;
+}
+
+.lightblue {
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF;
+}
+
+.yellow {
+    color: #FFFF00;
+    text-shadow: 0 0 15px #FFFF00;
+}
+
+.orange {
+    color: #FF8800;
+    text-shadow: 0 0 15px #FF8800;
+}
+
+.pink {
+    color: #FF00FF;
+    text-shadow: 0 0 15px #FF00FF;
+}
+
+.lightpink {
+    color: #FF88FF;
+    text-shadow: 0 0 15px #FF88FF;
+}
+
+.grey {
+    color: #888888;
+    text-shadow: 0 0 15px #888888;
+}
+
+.violet {
+    color: #8A2bE2;
+    text-shadow: 0 0 15px #8A2bE2;
+}
+
+.ultraviolet {
+    color: #645394;
+    text-shadow: 0 0 15px #645394;
+}

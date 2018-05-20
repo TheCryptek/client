@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<style>
+    .auth {
+        color: #FF0000;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    input {
+        margin-top: 0;
+
+        color: #FAFAFA;
+
+        background: none;
+        border: none;
+    }
+
+    button {
+        color: #00FF00;
+
+        background: none;
+        border: none;
+    }
+
+    .msg {
+        color: #FF0000;
+        font-size: 16px;
+    }
+</style>
+
+<html>
+    <head>
+        <link id="stylesheet" rel="stylesheet" type="text/css" href="../style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    </head>
+    <body bgcolor="#0D0D0D">
+        <p id="status">Connecting to server...</p>
+        <p class="auth">Error: Authentication required.</p>
+
+        <br/>
+
+        <p>Login:</p>
+        <input id="username" type="text" placeholder=">>"/>
+        <p>Pass:</p>
+        <input id="password" type="password" placeholder=">>"/>
+
+        <br/>
+
+        <button id="confirm">[Confirm]</button>
+
+        <br/>
+
+        <p class="msg" id="msg"></p>
+    </body>
+</html>
+
+<script>
+    const cfg = require("../../cfg.json");
+    
+    const socket = io.connect(cfg.server, {secure:true});
+
+    socket.on("connect", ()=>{
+        document.getElementById("status").innerText = "Connected to server.";
+    });
+
+    let f = false;
+    let l = {};
+
+    socket.on("data", data=>{
+        console.log(data);
+
+        if (data.error == "User doesn't exist.") {
+            f = true;
+            document.getElementById("msg").innerText = "Invalid user. Try again to create it.";
+        } else if (data.error)
+            document.getElementById("msg").innerText = data.error;
+        
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            location.replace("../game/index.html");
+        }
+    });
+
+    function auth() {
+        console.log("Attempting to authorise");
+
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        if (f && (username != l.username || password != l.password)) f = false;
+
+        const r = {
+            event:"auth",
+            login:{
+                username: username,
+                password: password
+            }
+        };
+
+        if (f) {
+            r.register = r.login;
+            delete r.login;
+        }
+
+        l = f?r.register:r.login;
+
+        socket.emit("data", JSON.stringify(r));
+    }
+
+    window.onload = ()=>{
+        document.getElementById("confirm").onclick = auth;
+    };
+</script>
